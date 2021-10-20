@@ -11,7 +11,7 @@ class GoogleMapScreen extends StatefulWidget {
 
   GoogleMapScreen(
       {this.initialLocation =
-          const PlaceLocation(latitude: 24.9709433, longitude: 67.0602567),
+          const PlaceLocation(latitude: 19.9709433, longitude: 37.0602567),
       this.isSelecting = false});
 
   @override
