@@ -28,8 +28,9 @@ class Product with ChangeNotifier {
     final oldStatus = isfavourite;
     isfavourite = !isfavourite;
     notifyListeners();
+    final firebasebackendname = "Enter Your backend database name";
     final url = Uri.parse(
-        "https://flutter-shop-update-dd173-default-rtdb.firebaseio.com/userFavoruites/$userId/$id.json?auth=$userToken");
+        "https://$firebasebackendname.firebaseio.com/userFavoruites/$userId/$id.json?auth=$userToken");
     try {
       final response = await http.put(url, body: json.encode(isfavourite));
       if (response.statusCode >= 400) {

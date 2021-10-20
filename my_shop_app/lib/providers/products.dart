@@ -125,8 +125,9 @@ class Products with ChangeNotifier {
 // in edit_product_screen.dart where we are using this addProduct function, we can still use .catcherror and .then method there
   Future<void> addProduct(Product product) async {
     try {
+      final firebasebackendname = "Enter Your backend database name";
       var url = Uri.parse(
-          "https://flutter-shop-update-dd173-default-rtdb.firebaseio.com/products.json?auth=$userToken");
+          "https://$firebasebackendname.firebaseio.com/products.json?auth=$userToken");
       //we can use await with those items which can return the response
       //to get the response we can store in a variable
 
@@ -167,8 +168,9 @@ class Products with ChangeNotifier {
     // to use firebase server side filtering we have to use it right after parameters in firebase api below is example '&orderBy="keyBywhichfilter"&equalTo="valueByWhichOrderByValueWillBeCompared"'
     final String filterByUserString =
         filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    final firebasebackendname = "Enter Your backend database name";
     var url = Uri.parse(
-        'https://flutter-shop-update-dd173-default-rtdb.firebaseio.com/products.json?auth=$userToken&$filterByUserString');
+        'https://$firebasebackendname.firebaseio.com/products.json?auth=$userToken&$filterByUserString');
     try {
       final response = await http.get(url);
       final Map<String, dynamic>? extractedProduct = json
@@ -179,8 +181,9 @@ class Products with ChangeNotifier {
       if (extractedProduct == null) {
         return;
       }
-      url = Uri.parse(
-          "https://flutter-shop-update-dd173-default-rtdb.firebaseio.com/userFavoruites/$userId.json?auth=$userToken");
+      final firebasebackendname = "Enter Your backend database name";
+      var url = Uri.parse(
+          "https://$firebasebackendname.firebaseio.com/userFavoruites/$userId.json?auth=$userToken");
       final favResponse = await http.get(url);
       final favData = json.decode(favResponse.body);
       final List<Product> _loadedProducts = [];
@@ -204,8 +207,9 @@ class Products with ChangeNotifier {
   Future<void> updateProduct(String id, Product newProd) async {
     final prodIndex = _items.indexWhere((pd) => pd.id == id);
     if (prodIndex >= 0) {
-      final url = Uri.parse(
-          "https://flutter-shop-update-dd173-default-rtdb.firebaseio.com/products/$id.json?auth=$userToken");
+      final firebasebackendname = "Enter Your backend database name";
+      var url = Uri.parse(
+          "https://$firebasebackendname.firebaseio.com/products/$id.json?auth=$userToken");
       await http.patch(url,
           body: json.encode({
             'title': newProd.title,
@@ -221,8 +225,9 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    final url = Uri.parse(
-        "https://flutter-shop-update-dd173-default-rtdb.firebaseio.com/products/$id.json?auth=$userToken");
+    final firebasebackendname = "Enter Your backend database name";
+    var url = Uri.parse(
+        "https://$firebasebackendname.firebaseio.com/products/$id.json?auth=$userToken");
     final _existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     Product? _existingProduct = _items[_existingProductIndex];
     _items.removeAt(_existingProductIndex);

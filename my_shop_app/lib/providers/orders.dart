@@ -31,8 +31,9 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOrders() async {
+    final firebasebackendname = "Enter Your backend database name";
     final url = Uri.parse(
-        "https://flutter-shop-update-dd173-default-rtdb.firebaseio.com/orders/$userId.json?auth=$userToken");
+        "https://$firebasebackendname.firebaseio.com/orders/$userId.json?auth=$userToken");
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
     try {
@@ -58,8 +59,9 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartproducts, double total) async {
+    final firebasebackendname = "Enter Your backend database name";
     final url = Uri.parse(
-        "https://flutter-shop-update-dd173-default-rtdb.firebaseio.com/orders/$userId.json?auth=$userToken");
+        "https://$firebasebackendname.com/orders/$userId.json?auth=$userToken");
     final timeStamp = DateTime.now();
     final response = await http.post(
       url,
