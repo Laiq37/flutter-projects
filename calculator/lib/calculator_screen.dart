@@ -45,21 +45,25 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
   void _clear() {
-    setState(() {
-      text = text.replaceRange(text.length - 1, text.length, '');
-    });
+    if (text != '') {
+      setState(() {
+        text = text.replaceRange(text.length - 1, text.length, '');
+      });
+    }
   }
 
   void _delete() {
     setState(() {
       text = '';
       prevText = '';
+      operation = '';
     });
   }
 
   _sqr(String val) {
     if (text != '') {
       prevText = (double.parse(text) * double.parse(text)).toString();
+      operation = '';
       setState(() {
         text = '';
       });
@@ -71,6 +75,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       equalsTo = true;
       _operation(operation);
       text = prevText;
+      operation = '';
       setState(() {
         prevText = '';
       });
@@ -83,35 +88,14 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         case '+':
           prevText =
               (double.parse(text) + double.parse(prevText)).toStringAsFixed(3);
-          operation = op;
-          if (!equalsTo) {
-            setState(() {
-              text = '';
-            });
-          }
-          equalsTo = false;
           break;
         case '-':
           prevText =
               (double.parse(prevText) - double.parse(text)).toStringAsFixed(3);
-          operation = op;
-          if (!equalsTo) {
-            setState(() {
-              text = '';
-            });
-          }
-          equalsTo = false;
           break;
         case 'x':
           prevText =
               (double.parse(text) * double.parse(prevText)).toStringAsFixed(3);
-          operation = op;
-          if (!equalsTo) {
-            setState(() {
-              text = '';
-            });
-          }
-          equalsTo = false;
           break;
         case '/':
           prevText =
@@ -127,21 +111,41 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         default:
           prevText =
               (double.parse(prevText) % double.parse(text)).toStringAsFixed(3);
-          operation = op;
-          if (!equalsTo) {
-            setState(() {
-              text = '';
-            });
-          }
-          equalsTo = false;
           break;
       }
+      operation = op;
+      if (!equalsTo) {
+        setState(() {
+          text = '';
+        });
+      }
+      equalsTo = false;
     } else if (text != '') {
       operation = op;
       prevText = text;
       setState(() {
         text = '';
       });
+    } else {
+      setState(() {
+        operation = op;
+      });
+    }
+  }
+
+  void _checkOperand(index) {
+    if (index == 3) {
+      _clear();
+    } else if (num.tryParse(values[index]) != null || values[index] == '.') {
+      _showText(values[index]);
+    } else if (index == 2) {
+      _delete();
+    } else if (values[index] == '=') {
+      _answer();
+    } else if (values[index] == 'sqr') {
+      _sqr(values[index]);
+    } else {
+      _operation(values[index]);
     }
   }
 
@@ -159,15 +163,18 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             height: MediaQuery.of(context).size.height / 2.7,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
                   operation != '' && prevText != ''
                       ? '$prevText $operation'
                       : prevText,
                   style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.end,
                 ),
                 const SizedBox(
                   height: 20,
@@ -178,6 +185,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     fontSize: 40,
                     color: Colors.white,
                   ),
+                  textAlign: TextAlign.end,
                 ),
               ],
             ),
@@ -196,20 +204,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   splashColor: Colors.amber,
                   borderRadius: BorderRadius.circular(35),
                   onTap: () {
-                    if (index == 3) {
-                      _clear();
-                    } else if (num.tryParse(values[index]) != null ||
-                        values[index] == '.') {
-                      _showText(values[index]);
-                    } else if (index == 2) {
-                      _delete();
-                    } else if (values[index] == '=') {
-                      _answer();
-                    } else if (values[index] == 'sqr') {
-                      _sqr(values[index]);
-                    } else {
-                      _operation(values[index]);
-                    }
+                    _checkOperand(index);
                   },
                   child: Container(
                     alignment: Alignment.center,
