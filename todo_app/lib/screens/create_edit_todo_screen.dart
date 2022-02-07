@@ -3,7 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/provider/todo_provider.dart';
 
 class CreateEditTodoScreen extends StatefulWidget {
-  CreateEditTodoScreen({Key? key}) : super(key: key);
+  final int? id;
+  final String? title;
+  final String? status;
+  bool isEditing;
+
+  CreateEditTodoScreen(
+      {this.id, this.title, this.status, this.isEditing = false, Key? key})
+      : super(key: key);
 
   final TextEditingController titleController = TextEditingController();
 
@@ -14,25 +21,45 @@ class CreateEditTodoScreen extends StatefulWidget {
 class _CreateEditTodoScreenState extends State<CreateEditTodoScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final List<String> status = ["False", "True"];
+  final List<String> status = ["false", "true"];
 
-  String value = "False";
+  late String value;
 
   onSubmit(String title, String isDone) async {
     if (!_formKey.currentState!.validate()) return;
-    final Map<String, dynamic> data = {
-      "todo": title,
-      "done": isDone,
-    };
-    await Provider.of<TodoProvider>(context, listen: false).createTodo(data);
+    if (widget.isEditing == false) {
+      final Map<String, dynamic> data = {
+        "todo": title,
+        "done": isDone,
+      };
+      await Provider.of<TodoProvider>(context, listen: false).createTodo(data);
+    } else {
+      final Map<String, dynamic> data = {
+        'todoId': widget.id.toString(),
+        "todo": title,
+        "done": isDone,
+      };
+      await Provider.of<TodoProvider>(context, listen: false)
+          .updateTodo(widget.id!, data);
+    }
     Navigator.pop(context);
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    value = widget.status ?? "false";
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (widget.isEditing) {
+      widget.titleController.text = widget.title!;
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Todo'),
+        title: Text(widget.isEditing ? 'Edit Todo' : 'Create Todo'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
