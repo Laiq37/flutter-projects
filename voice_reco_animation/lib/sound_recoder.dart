@@ -41,6 +41,7 @@ class SoundRecorder {
   Future<String?> toggleRecording() async {
     // print("AudioRecorder $_audioRecorder");
     if (_audioRecorder!.isStopped) {
+      _audioRecorder!.onProgress!.listen((event) {print(event.duration.inSeconds);});
       await _record();
       return null;
     } else {
