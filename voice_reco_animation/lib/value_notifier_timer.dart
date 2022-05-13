@@ -19,4 +19,8 @@ class TimerProvider{
   void resetDuration(){
     time.value = "00:00";
   }
+
+  void dispose(){
+    time.dispose();
+  }
 }

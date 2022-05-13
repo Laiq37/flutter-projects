@@ -23,6 +23,7 @@ class VoiceRecProvider{
   ValueNotifier<bool> isLongPress = ValueNotifier<bool>(false);
   int timeInSec = 0;
   bool isReset = false;
+  ValueNotifier<bool> isCancelled = ValueNotifier(false);
 
   void reset([bool resettingValue = true]) {
       isReset = resettingValue;
@@ -38,6 +39,7 @@ class VoiceRecProvider{
 
   void onLongPressValue(BuildContext context){
     isLongPress.value = true;
+    isCancelled.value = false;
                 width = MediaQuery.of(context).size.width;
                 height = MediaQuery.of(context).size.height * 0.056;
                 margin = 2;
@@ -55,6 +57,11 @@ class VoiceRecProvider{
   void changeIconOffset(LongPressMoveUpdateDetails details, BuildContext context){
     offset.value = Offset((-details.offsetFromOrigin.dx), -micIconRadius(context)/3 + 0);
     // notifyListeners();
+  }
+
+  void dispose(){
+    offset.dispose();
+    isLongPress.dispose();
   }
 
 }
