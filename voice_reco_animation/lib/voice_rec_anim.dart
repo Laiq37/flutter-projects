@@ -71,6 +71,10 @@ class _VoiceRecoState extends State<VoiceReco> {
 
   initRecorderPlayer() async {
     isGranted = await getPermissionStatus();
+    if(isGranted){
+
+                            setState(() {});
+                            } 
     await recorder.init();
     await player.init();
   }
@@ -121,9 +125,13 @@ class _VoiceRecoState extends State<VoiceReco> {
                     behavior: HitTestBehavior.opaque,
                     onLongPress: !isGranted
                         ? () async {
+                          print('inPermission');
                             await requestPermission();
                             isGranted = await getPermissionStatus();
+                            if(isGranted){
+
                             setState(() {});
+                            } 
                           }
                         : () async {
                             // print("longPressIsLongPress");
@@ -141,10 +149,11 @@ class _VoiceRecoState extends State<VoiceReco> {
                               // });
                             });
                             await recorder.toggleRecording();
+                            print('long Press true');
                             voiceRecProvider.onLongPressValue(context);
                           },
                     onLongPressStart: (startDetails) {
-                      longPressStart = startDetails.localPosition.dx;
+                      longPressStart = startDetails.globalPosition.dx;
                     },
                     onLongPressMoveUpdate: (details) async {
                       if (!isGranted) return;
@@ -161,12 +170,14 @@ class _VoiceRecoState extends State<VoiceReco> {
                         return;
                       }
 
-                      if (-details.localPosition.dx < -longPressStart &&
-                          voiceRecProvider.isDrag!) {
-                        getAndPlay();
-                        reset();
-                        return;
-                      }
+                      // if (-details.offsetFromOrigin.dx < -longPressStart &&
+                      //     voiceRecProvider.isDrag!) {
+                      //       print(-details.offsetFromOrigin.dx);
+                      //       print(-longPressStart);
+                      //   // getAndPlay();
+                      //   // reset();
+                      //   return;
+                      // }
                       // }
 
                       // if(isReset)return;
