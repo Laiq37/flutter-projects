@@ -8,7 +8,7 @@ class VoiceNoteDuration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TimerProvider timerProvider = TimerProvider();
-    print('rebuit VoiceNoteDuration');
+    // print('rebuit VoiceNoteDuration');
     return ValueListenableBuilder(
       valueListenable: timerProvider.time,
       builder: (_, String time, __) => Text(
@@ -26,7 +26,7 @@ class SlideToCancel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('rebuit SlideToCancel');
+    // print('rebuit SlideToCancel');
     return Expanded(
       flex: 3,
       child: Shimmer.fromColors(

@@ -10,7 +10,7 @@ class BigMicIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     VoiceRecProvider voiceRecProvider = VoiceRecProvider();
     print('rebuit MicIcon');
-    print(MediaQuery.of(context).size);
+    // print(MediaQuery.of(context).size);
 
     // print('MicIcon');
     // print('icon rebuilt');

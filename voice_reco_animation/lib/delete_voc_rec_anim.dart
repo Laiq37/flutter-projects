@@ -153,8 +153,7 @@ class _DeleteVocRecAnimState extends State<DeleteVocRecAnim>
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
+  void dispose() { 
     _animationController.dispose();
     timer.cancel();
     super.dispose();
@@ -162,6 +161,7 @@ class _DeleteVocRecAnimState extends State<DeleteVocRecAnim>
 
   @override
   Widget build(BuildContext context) {
+    print('rebuilt deleteVoiceRecAnimation');
     return Column(
       children: [
         AnimatedBuilder(

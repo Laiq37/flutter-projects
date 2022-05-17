@@ -70,13 +70,13 @@ class _VoiceRecoState extends State<VoiceReco> {
   bool isGranted = false;
 
   initRecorderPlayer() async {
-    isGranted = await getPermissionStatus();
-    if(isGranted){
-
-                            setState(() {});
-                            } 
     await recorder.init();
     await player.init();
+    final bool status  = await getPermissionStatus();
+     if(status){
+       isGranted = status;
+                            setState(() {});
+                            }
   }
 
   @override
@@ -116,8 +116,8 @@ class _VoiceRecoState extends State<VoiceReco> {
                 )),
         ValueListenableBuilder<Offset>(
           valueListenable: voiceRecProvider.offset,
-          builder: ((contet, Offset offset, child) {
-            print("dx ${offset.dx}  dy ${offset.dy}");
+          builder: ((context, Offset offset, child) {
+            print("rebuilt voiceRecoBuilder");
             return Positioned(
                 right: offset.dx,
                 bottom: offset.dy,
@@ -127,9 +127,9 @@ class _VoiceRecoState extends State<VoiceReco> {
                         ? () async {
                           print('inPermission');
                             await requestPermission();
-                            isGranted = await getPermissionStatus();
-                            if(isGranted){
-
+                            final status = await getPermissionStatus();
+                            if(status){
+                              isGranted = status;
                             setState(() {});
                             } 
                           }
@@ -210,14 +210,17 @@ class _VoiceRecoState extends State<VoiceReco> {
         ),
         ValueListenableBuilder<bool>(
           valueListenable: voiceRecProvider.isCancelled,
-          builder: (_, bool isCancelled, __) => Positioned(
+          builder: (_, bool isCancelled, __) {
+            print('rebuilt voiceReco isCancelled animation builder');
+          return Positioned(
               left: MediaQuery.of(context).size.width * 0.05,
               bottom: 2,
               child: ValueListenableBuilder<bool>(
                   valueListenable: voiceRecProvider.isCancelled,
                   builder: (_, bool isCancelled, __) => isCancelled
                       ? const DeleteVocRecAnim()
-                      : const SizedBox())),
+                      : const SizedBox()));
+          }
         )
       ],
     );

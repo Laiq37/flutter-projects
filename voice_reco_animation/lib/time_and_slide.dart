@@ -14,7 +14,9 @@ class TimeAndSlide extends StatelessWidget {
     // print(time);
     return ValueListenableBuilder(
       valueListenable: voiceRecProvider.isLongPress,
-      builder: (_, bool isLongPress, ch) => AnimatedContainer(
+      builder: (_, bool isLongPress, ch) {
+        print("rebult timeAmdSlide builder");
+      return AnimatedContainer(
         margin: EdgeInsets.only(
             left: voiceRecProvider.margin, bottom: voiceRecProvider.margin),
         decoration: BoxDecoration(
@@ -26,7 +28,8 @@ class TimeAndSlide extends StatelessWidget {
         width: voiceRecProvider.width,
         height: voiceRecProvider.height,
         child: isLongPress ? ch : const SizedBox(),
-      ),
+      );
+      }, 
       child: Row(
         children: const [
           // const Expanded(flex: 1, child: AnimatedMicIcon()),

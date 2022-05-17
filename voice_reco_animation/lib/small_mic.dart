@@ -10,7 +10,7 @@ class SmallMicIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     VoiceRecProvider voiceRecProvider = VoiceRecProvider();
     print('rebuit MicIcon');
-    print(voiceRecProvider.micIconRadius(context));
+    // print(voiceRecProvider.micIconRadius(context));
     // print('MicIcon');
     // print('icon rebuilt');
     return CircleAvatar(
