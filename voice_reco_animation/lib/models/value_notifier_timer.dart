@@ -1,14 +1,16 @@
+
+
 import 'package:flutter/widgets.dart';
 
-class TimerProvider{
+class TimerNotifier{
 
- static final TimerProvider _instance = TimerProvider._internal();
+ static TimerNotifier? _instance = TimerNotifier._internal();
 
-  factory TimerProvider() {
-    return _instance;
+  factory TimerNotifier() {
+    return _instance ??= TimerNotifier._internal();
   }
 
-  TimerProvider._internal();
+  TimerNotifier._internal();
 
   ValueNotifier<String> time = ValueNotifier("00:00");
 
@@ -22,5 +24,6 @@ class TimerProvider{
 
   void dispose(){
     time.dispose();
+    _instance = null;
   }
 }

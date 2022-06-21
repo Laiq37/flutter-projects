@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import './voice_rec_anim.dart';
+import 'package:voice_reco_animation/models/mic_permission.dart';
+import 'package:voice_reco_animation/widgets/voice_rec_anim.dart';
 
-void main() {
-  runApp(const MyApp());
+void main(){
+  WidgetsFlutterBinding.ensureInitialized();
+  MicPermission().setStatus();
+  Future.delayed(const Duration(milliseconds: 200), (() => runApp(const MyApp())));
 }
 
 class MyApp extends StatelessWidget {

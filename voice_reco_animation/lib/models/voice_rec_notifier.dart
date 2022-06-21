@@ -2,19 +2,20 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-class VoiceRecProvider{
+class VoiceRecNotifier{
 
 
-  static final VoiceRecProvider _instance = VoiceRecProvider._internal();
+  static VoiceRecNotifier? _instance = VoiceRecNotifier._internal();
 
-  factory VoiceRecProvider() {
-    return _instance;
+  factory VoiceRecNotifier() {
+   return _instance ??= VoiceRecNotifier._internal();
+  //  return _instance!;
   }
 
-  VoiceRecProvider._internal();
+  VoiceRecNotifier._internal();
 
   ValueNotifier<Offset> offset = ValueNotifier(Offset.zero);
-  double radius = 0.07;
+  double radius = 0.06;
   double height = 0;
   double margin = 0;
   double width = 0;
@@ -32,20 +33,18 @@ class VoiceRecProvider{
       height = 0;
       margin = 0;
       timeInSec = 0;
-      radius =  0.07;
+      radius =  0.06;
         offset.value = Offset.zero;
-        // notifyListeners();
     }
 
   void onLongPressValue(BuildContext context){
     isLongPress.value = true;
     isCancelled.value = false;
                 width = MediaQuery.of(context).size.width;
-                height = MediaQuery.of(context).size.height * 0.056;
+                height = MediaQuery.of(context).size.height * 0.045;
                 margin = 2;
-                radius =  0.1;
-                offset.value =Offset(-micIconRadius(context)/4, -micIconRadius(context)/3);
-                // notifyListeners();
+                radius =  0.08;
+                offset.value =Offset(-micIconRadius(context)/5, -micIconRadius(context)/3);
   }
 
   double micIconRadius(BuildContext context){
@@ -56,12 +55,12 @@ class VoiceRecProvider{
 
   void changeIconOffset(LongPressMoveUpdateDetails details, BuildContext context){
     offset.value = Offset((-details.offsetFromOrigin.dx), -micIconRadius(context)/3 + 0);
-    // notifyListeners();
   }
 
   void dispose(){
     offset.dispose();
     isLongPress.dispose();
+    _instance = null;
   }
 
 }

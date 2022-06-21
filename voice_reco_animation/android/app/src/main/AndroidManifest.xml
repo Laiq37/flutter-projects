@@ -2,6 +2,8 @@
     package="com.example.voice_reco_animation">
     <uses-permission android:name="android.permission.RECORD_AUDIO"/> 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
    <application
         android:label="voice_reco_animation"
         android:name="${applicationName}"

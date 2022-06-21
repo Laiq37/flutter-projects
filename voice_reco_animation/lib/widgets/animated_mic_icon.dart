@@ -31,10 +31,9 @@ class _AnimatedMicIconState extends State<AnimatedMicIcon>
 
   @override
   Widget build(BuildContext context) {
-    print('rebuit AnimatedMicIcon');
     return FadeTransition(
       opacity: _opacityAnimation,
-      child: const Icon(Icons.mic, color: Colors.red, size: 24),
+      child: const Icon(Icons.mic, color: Colors.red, size: 20),
     );
   }
 }

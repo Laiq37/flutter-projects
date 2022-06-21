@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:voice_reco_animation/voice_rec_provider.dart';
+import 'package:voice_reco_animation/models/voice_rec_notifier.dart';
 import 'animated_mic_icon.dart';
 import 'slide_to_cancel.dart';
 
@@ -8,31 +8,26 @@ class TimeAndSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    VoiceRecProvider voiceRecProvider = VoiceRecProvider();
-    print('rebuit TimeAndSlide');
-    // print('timeslider rebuilt');
-    // print(time);
+    VoiceRecNotifier voiceRecNotifier = VoiceRecNotifier();
     return ValueListenableBuilder(
-      valueListenable: voiceRecProvider.isLongPress,
+      valueListenable: voiceRecNotifier.isLongPress,
       builder: (_, bool isLongPress, ch) {
-        print("rebult timeAmdSlide builder");
       return AnimatedContainer(
         margin: EdgeInsets.only(
-            left: voiceRecProvider.margin, bottom: voiceRecProvider.margin),
+            left: voiceRecNotifier.margin, bottom: voiceRecNotifier.margin),
         decoration: BoxDecoration(
             color: Colors.grey[700],
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15), bottomLeft: Radius.circular(15))),
         duration: const Duration(milliseconds: 100),
         curve: Curves.easeInToLinear,
-        width: voiceRecProvider.width,
-        height: voiceRecProvider.height,
+        width: voiceRecNotifier.width,
+        height: voiceRecNotifier.height,
         child: isLongPress ? ch : const SizedBox(),
       );
       }, 
       child: Row(
         children: const [
-          // const Expanded(flex: 1, child: AnimatedMicIcon()),
           Expanded(flex: 1, child: AnimatedMicIcon()),
           Expanded(
             flex: 1,
